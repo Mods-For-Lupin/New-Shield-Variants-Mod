@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.jason13official.examplemod.ExampleModFabric"
+      "io.github.jason13official.new_shield_variants.NewShieldVariantsFabric"
     ],
     "client": [
-      "io.github.jason13official.examplemod.ExampleModClientFabric"
+      "io.github.jason13official.new_shield_variants.NewShieldVariantsClientFabric"
     ]
   },
   "mixins": [
