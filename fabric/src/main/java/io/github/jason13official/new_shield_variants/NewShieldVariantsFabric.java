@@ -1,5 +1,6 @@
 package io.github.jason13official.new_shield_variants;
 
+import io.github.jason13official.new_shield_variants.impl.common.NSVConfig;
 import io.github.jason13official.new_shield_variants.impl.common.registry.ModBlocks;
 import io.github.jason13official.new_shield_variants.impl.common.registry.ModEntities;
 import io.github.jason13official.new_shield_variants.impl.common.registry.ModItems;
@@ -7,6 +8,7 @@ import io.github.jason13official.new_shield_variants.impl.common.registry.ModMen
 import io.github.jason13official.new_shield_variants.impl.common.registry.ModParticles;
 import io.github.jason13official.new_shield_variants.impl.common.registry.ModTabs;
 import io.github.jason13official.new_shield_variants.impl.common.registry.ModTiles;
+import io.github.jason13official.new_shield_variants.platform.Services;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import net.fabricmc.api.ModInitializer;
@@ -33,6 +35,8 @@ public class NewShieldVariantsFabric implements ModInitializer {
 
     NewShieldVariants.init();
 
+    NSVConfig.load(Services.PLATFORM.getConfigDirectory());
+
     ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new ResourceReloadListener());
   }
 
@@ -51,6 +55,7 @@ public class NewShieldVariantsFabric implements ModInitializer {
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
       // ModConfig.load(Services.PLATFORM.getConfigDirectory());
+      NSVConfig.load(Services.PLATFORM.getConfigDirectory());
     }
   }
 }
