@@ -3,10 +3,10 @@
   "category": "equipment",
   "key": {
     "W": {
-      "item": "minecraft:shulker_shell"
+      "item": "minecraft:iron_ingot"
     },
     "o": {
-      "item": "minecraft:netherite_ingot"
+      "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     " W "
   ],
   "result": {
-    "item": "new_shield_variants:shulker_shield"
+    "id": "new_shield_variants:iron_shield"
   },
   "show_notification": true
 }

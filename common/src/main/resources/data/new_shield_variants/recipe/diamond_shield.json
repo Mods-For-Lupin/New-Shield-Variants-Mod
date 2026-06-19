@@ -3,8 +3,7 @@
   "category": "equipment",
   "key": {
     "W": {
-      "item": "minecraft:stone",
-      "item": "minecraft:cobblestone"
+      "item": "minecraft:diamond"
     },
     "o": {
       "item": "minecraft:iron_ingot"
@@ -16,7 +15,7 @@
     " W "
   ],
   "result": {
-    "item": "new_shield_variants:stone_shield"
+    "id": "new_shield_variants:diamond_shield"
   },
   "show_notification": true
 }

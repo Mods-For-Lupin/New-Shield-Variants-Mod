@@ -3,7 +3,8 @@
   "category": "equipment",
   "key": {
     "W": {
-      "item": "minecraft:gold_ingot"
+      "item": "minecraft:stone",
+      "item": "minecraft:cobblestone"
     },
     "o": {
       "item": "minecraft:iron_ingot"
@@ -15,7 +16,7 @@
     " W "
   ],
   "result": {
-    "item": "new_shield_variants:gold_shield"
+    "id": "new_shield_variants:stone_shield"
   },
   "show_notification": true
 }

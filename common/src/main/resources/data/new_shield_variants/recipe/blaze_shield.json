@@ -6,7 +6,7 @@
       "item": "minecraft:netherite_ingot"
     },
     "o": {
-      "item": "minecraft:fire_charge"
+      "item": "minecraft:blaze_rod"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     " W "
   ],
   "result": {
-    "item": "new_shield_variants:fire_charge_shield"
+    "id": "new_shield_variants:blaze_shield"
   },
   "show_notification": true
 }

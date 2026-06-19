@@ -3,10 +3,10 @@
   "category": "equipment",
   "key": {
     "W": {
-      "item": "minecraft:netherite_ingot"
+      "item": "minecraft:gold_ingot"
     },
     "o": {
-      "item": "minecraft:blaze_rod"
+      "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     " W "
   ],
   "result": {
-    "item": "new_shield_variants:blaze_shield"
+    "id": "new_shield_variants:gold_shield"
   },
   "show_notification": true
 }
