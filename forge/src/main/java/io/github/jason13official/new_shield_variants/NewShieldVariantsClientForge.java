@@ -1,9 +1,12 @@
 package io.github.jason13official.new_shield_variants;
 
+import io.github.jason13official.new_shield_variants.impl.common.registry.ModEntities;
 import io.github.jason13official.new_shield_variants.impl.common.registry.ModItems;
 import java.util.function.Consumer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -26,6 +29,11 @@ public class NewShieldVariantsClientForge {
               });
         });
       });
+    });
+
+    modEventBus.addListener((Consumer<EntityRenderersEvent.RegisterRenderers>) event -> {
+      event.registerEntityRenderer(ModEntities.THROWN_TNT, ThrownItemRenderer::new);
+      event.registerEntityRenderer(ModEntities.THROWN_FIRE_CHARGE, ThrownItemRenderer::new);
     });
   }
 }
