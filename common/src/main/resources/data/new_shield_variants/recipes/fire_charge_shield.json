@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "W": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "o": {
+      "item": "minecraft:fire_charge"
+    }
+  },
+  "pattern": [
+    "WoW",
+    "WWW",
+    " W "
+  ],
+  "result": {
+    "item": "new_shield_variants:fire_charge_shield"
+  },
+  "show_notification": true
+}

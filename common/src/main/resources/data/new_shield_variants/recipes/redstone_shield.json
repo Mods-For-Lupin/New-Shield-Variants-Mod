@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "W": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "o": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "WoW",
+    "WWW",
+    " W "
+  ],
+  "result": {
+    "item": "new_shield_variants:redstone_shield"
+  },
+  "show_notification": true
+}
