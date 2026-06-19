@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "W": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "o": {
-      "item": "minecraft:dragon_head"
-    }
+    "W": "minecraft:netherite_ingot",
+    "o": "minecraft:dragon_head"
   },
   "pattern": [
     "WoW",

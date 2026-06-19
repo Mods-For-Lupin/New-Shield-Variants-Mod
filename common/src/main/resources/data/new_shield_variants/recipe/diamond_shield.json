@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "W": {
-      "item": "minecraft:diamond"
-    },
-    "o": {
-      "item": "minecraft:iron_ingot"
-    }
+    "W": "minecraft:diamond",
+    "o": "minecraft:iron_ingot"
   },
   "pattern": [
     "WoW",

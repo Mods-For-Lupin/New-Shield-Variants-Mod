@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "W": {
-      "item": "minecraft:netherite_ingot"
-    },
-    "o": {
-      "item": "minecraft:redstone_block"
-    }
+    "W": "minecraft:netherite_ingot",
+    "o": "minecraft:redstone_block"
   },
   "pattern": [
     "WoW",

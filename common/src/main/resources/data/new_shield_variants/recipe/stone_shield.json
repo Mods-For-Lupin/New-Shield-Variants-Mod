@@ -2,13 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "W": {
-      "item": "minecraft:stone",
-      "item": "minecraft:cobblestone"
-    },
-    "o": {
-      "item": "minecraft:iron_ingot"
-    }
+    "W": "#minecraft:stone_tool_materials",
+    "o": "minecraft:iron_ingot"
   },
   "pattern": [
     "WoW",

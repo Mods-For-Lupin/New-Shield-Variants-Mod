@@ -150,9 +150,6 @@
 			}
 		}
 	],
-	"overrides": [
-		{"predicate": {"blocking": 1}, "model": "new_shield_variants:item/tnt_shield_blocking"}
-	],
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [0, -90, 0],
