@@ -1,13 +1,11 @@
 package io.github.jason13official.new_shield_variants.impl.common;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import io.github.jason13official.new_shield_variants.Constants;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,73 +20,71 @@ public class NSVConfig {
   // belongs to the class so we can reference actual items properly
   public static final List<Item> BANNED_SHIELD_ITEMS = new ArrayList<>();
 
-  public static NSVConfig get() {
-    return INSTANCE;
-  }
-
   // belongs to the object for serialization purposes
-  public final List<String> bannedShieldItemIds = new ArrayList<>();
+  public final List<String> bannedShields = new ArrayList<>();
 
   public static void load(Path configDir) {
 
     // reset original values
     NSVConfig.BANNED_SHIELD_ITEMS.clear();
-    INSTANCE.bannedShieldItemIds.clear();
+    INSTANCE.bannedShields.clear();
 
     File configDirectory = new File(configDir.toUri());
     if (!configDirectory.isDirectory() && !configDirectory.mkdirs()) {
-      System.out.println("Failed to get or create config directory " + configDirectory.getAbsolutePath());
-      NSVConfig.willDefault();
-      return;
+      try {
+        Files.createDirectories(configDir); // similar to mkdirs, we're just trying again
+      } catch (Exception e) {
+        System.out.println("Failed to get or create config directory " + configDirectory.getAbsolutePath());
+        NSVConfig.willDefault();
+        return;
+      }
     }
 
-    File configFile = new File(configDir.resolve(Constants.MOD_ID + "-server.json").toUri());
+    Path configFilepath = configDir.resolve(Constants.MOD_ID + "-server.toml");
+    File configFile = new File(configFilepath.toUri());
 
-    if (!configFile.isFile()) {
-
-      // write the file, leave banned bows empty
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
-      try (BufferedWriter bw = new BufferedWriter(new FileWriter(configFile))) {
-
-        gson.toJson(INSTANCE, bw);
-
-      } catch (Exception e) {
-        System.out.println("Failed to write config file " + configFile.getAbsolutePath());
-        NSVConfig.willDefault();
+    try (CommentedFileConfig config = CommentedFileConfig.builder(configFile).build()) {
+      if (Files.exists(configFilepath)) {
+        config.load();
       }
 
-    } else {
+      NSVConfig newConfigObj = new NSVConfig();
 
-      // read the file, see if we are banning valid bows
-      Gson gson = new Gson();
-      try (BufferedReader br = new BufferedReader(new FileReader(configFile))) {
+      // actually read the config file
+      ArrayList<String> itemIds = config.getOrElse("banned_shields", new ArrayList<String>());
+      newConfigObj.bannedShields.addAll(itemIds);
 
-        // do actual reading
-        NSVConfig newConfigObj = gson.fromJson(br, NSVConfig.class);
-        INSTANCE = newConfigObj;
+      // operate on our read values
+      newConfigObj.bannedShields.forEach(s -> {
+        // "minecraft:shield" to ResourceLocation object
+        String[] parts = s.split(":");
+        ResourceLocation id;
+        if (parts.length == 2) {
+          id = new ResourceLocation(parts[0], parts[1]);
+        } else {
+          id = new ResourceLocation(Constants.MOD_ID, s);
+        }
 
-        System.out.println("Loaded config object: " + newConfigObj);
-        System.out.println("New config instance:  " + INSTANCE);
+        // if it's a valid item ID ban it, otherwise log a warning.
+        if (!BuiltInRegistries.ITEM.containsKey(id)) {
+          System.out.println("Illegal item id in config: " + id + " is not a valid identifier. (example: new_shield_variants:tnt_shield)");
+        } else {
+          System.out.println("Banning shield " + s);
+          BANNED_SHIELD_ITEMS.add(BuiltInRegistries.ITEM.get(id));
+        }
+      });
 
-        // process our new config, which may throw other errors
-        INSTANCE.bannedShieldItemIds.forEach(s -> {
+      INSTANCE = newConfigObj;
 
-          // "minecraft:shield" to ResourceLocation object
-          String[] parts = s.split(":");
-          ResourceLocation id = new ResourceLocation(parts[0], parts[1]);
+      // do the writing stuff
+      config.setComment("banned_shields", " Shields that should be disabled, example: new_shield_variants:tnt_shield");
+      config.set("banned_shields", INSTANCE.bannedShields);
+      config.save();
 
-          // if it's a valid item ID ban it, otherwise log a warning.
-          if (!BuiltInRegistries.ITEM.containsKey(id)) {
-            System.out.println("Illegal item id in config: " + id + " is not a valid identifier. (example: new_shield_variants:tnt_shield)");
-          } else {
-            BANNED_SHIELD_ITEMS.add(BuiltInRegistries.ITEM.get(id));
-          }
-        });
-
-      } catch (Exception e) {
-        System.out.println("Failed to read config file " + configFile.getAbsolutePath());
-        NSVConfig.willDefault();
-      }
+    } catch (Exception e) {
+      System.out.println("Failed to get or create config file " + configFile.getAbsolutePath());
+      NSVConfig.willDefault();
+      INSTANCE = new NSVConfig();
     }
   }
 
