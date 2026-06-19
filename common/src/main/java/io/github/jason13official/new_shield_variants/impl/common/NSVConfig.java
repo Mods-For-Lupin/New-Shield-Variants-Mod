@@ -8,13 +8,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 
 public class NSVConfig {
@@ -22,23 +20,23 @@ public class NSVConfig {
   private static NSVConfig INSTANCE = new NSVConfig();
 
   // belongs to the class so we can reference actual items properly
-  public static List<Item> BANNED_SHIELD_ITEMS = new ArrayList<>();
+  public static final List<Item> BANNED_SHIELD_ITEMS = new ArrayList<>();
 
   public static NSVConfig get() {
     return INSTANCE;
   }
 
   // belongs to the object for serialization purposes
-  public List<String> BANNED_SHIELD_STRINGS = new ArrayList<>();
+  public final List<String> bannedShieldItemIds = new ArrayList<>();
 
   public static void load(Path configDir) {
 
     // reset original values
     NSVConfig.BANNED_SHIELD_ITEMS.clear();
-    INSTANCE.BANNED_SHIELD_STRINGS.clear();
+    INSTANCE.bannedShieldItemIds.clear();
 
     File configDirectory = new File(configDir.toUri());
-    if (!configDirectory.mkdirs()) {
+    if (!configDirectory.isDirectory() && !configDirectory.mkdirs()) {
       System.out.println("Failed to get or create config directory " + configDirectory.getAbsolutePath());
       NSVConfig.willDefault();
       return;
@@ -73,7 +71,7 @@ public class NSVConfig {
         System.out.println("New config instance:  " + INSTANCE);
 
         // process our new config, which may throw other errors
-        INSTANCE.BANNED_SHIELD_STRINGS.forEach(s -> {
+        INSTANCE.bannedShieldItemIds.forEach(s -> {
 
           // "minecraft:shield" to ResourceLocation object
           String[] parts = s.split(":");

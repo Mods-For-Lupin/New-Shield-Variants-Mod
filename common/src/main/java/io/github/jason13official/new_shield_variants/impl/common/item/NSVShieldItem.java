@@ -22,6 +22,6 @@ public class NSVShieldItem extends ShieldItem {
 
   @Override
   public boolean isEnabled(FeatureFlagSet enabledFeatures) {
-    return NSVConfig.BANNED_SHIELD_ITEMS.contains(this);
+    return !NSVConfig.BANNED_SHIELD_ITEMS.contains(this);
   }
 }
