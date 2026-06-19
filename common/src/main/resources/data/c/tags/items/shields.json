@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "new_shield_variants:stone_shield",
+    "new_shield_variants:iron_shield",
+    "new_shield_variants:gold_shield",
+    "new_shield_variants:diamond_shield",
+    "new_shield_variants:netherite_shield",
+
+    "new_shield_variants:ender_shield",
+    "new_shield_variants:blaze_shield",
+    "new_shield_variants:fire_charge_shield",
+    "new_shield_variants:shulker_shield",
+    "new_shield_variants:dragon_head_shield",
+
+    "new_shield_variants:netherite_shield"
+  ]
+}
