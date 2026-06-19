@@ -10,36 +10,38 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-public class ThrownFireChargeFabric extends ThrowableItemProjectile {
+public class ThrownTNT extends ThrowableItemProjectile {
 
-  public ThrownFireChargeFabric(EntityType<? extends ThrowableItemProjectile> type, Level level) {
+  public ThrownTNT(EntityType<? extends ThrowableItemProjectile> type, Level level) {
     super(type, level);
   }
 
-  public ThrownFireChargeFabric(Level level, LivingEntity owner) {
-    super(ModEntities.THROWN_FIRE_CHARGE, owner, level);
-    setItem(Items.FIRE_CHARGE.getDefaultInstance());
-    this.setItemSlot(EquipmentSlot.MAINHAND, Items.FIRE_CHARGE.getDefaultInstance());
+  public ThrownTNT(Level level, LivingEntity owner) {
+    super(ModEntities.THROWN_TNT, owner, level);
+    setItem(Items.TNT.getDefaultInstance());
+    this.setItemSlot(EquipmentSlot.MAINHAND, Items.TNT.getDefaultInstance());
     if (Services.PLATFORM.isDevelopmentEnvironment()) {
-      System.out.println("created ThrownFireChargeFabric instance");
+      System.out.println("created ThrownTNTFabric instance");
     }
   }
 
-  public ThrownFireChargeFabric(Level level, double x, double y, double z) {
-    super(ModEntities.THROWN_FIRE_CHARGE, x, y, z, level);
+  public ThrownTNT(Level level, double x, double y, double z) {
+    super(ModEntities.THROWN_TNT, x, y, z, level);
   }
 
   public static LayerDefinition createBodyLayer() {
@@ -76,13 +78,14 @@ public class ThrownFireChargeFabric extends ThrowableItemProjectile {
   protected void onHit(HitResult hitResult) {
     super.onHit(hitResult);
     if (!this.level().isClientSide()) {
-
+      Level level = this.level();
       BlockPos blockpos = this.blockPosition().relative(this.getDirection());
-      if (BaseFireBlock.canBePlacedAt(this.level(), blockpos, this.getDirection())) {
-        BlockState blockstate = BaseFireBlock.getState(this.level(), blockpos);
-        this.level().setBlock(blockpos, blockstate, BaseFireBlock.UPDATE_ALL_IMMEDIATE);
-      }
-
+      PrimedTnt primedtnt = new PrimedTnt(level, (double) blockpos.getX() + (double) 0.5F, blockpos.getY(),
+          (double) blockpos.getZ() + (double) 0.5F, null);
+      level.addFreshEntity(primedtnt);
+      level.playSound(null, primedtnt.getX(), primedtnt.getY(), primedtnt.getZ(), SoundEvents.TNT_PRIMED,
+          SoundSource.BLOCKS, 1.0F, 1.0F);
+      level.gameEvent(null, GameEvent.ENTITY_PLACE, blockpos);
       this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
       this.discard();
     }
@@ -90,7 +93,7 @@ public class ThrownFireChargeFabric extends ThrowableItemProjectile {
 
   @Override
   protected Item getDefaultItem() {
-    return Items.FIRE_CHARGE;
+    return Items.TNT;
   }
 }
 
